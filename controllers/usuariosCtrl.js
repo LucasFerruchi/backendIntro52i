@@ -1,5 +1,8 @@
 const { response, request } = require("express");
 
+//importar el schem usuario
+const Usuario = require("../models/usuario");
+
 //Pet GET
 const usuariosGet = (req = request, res = response) => {
   const { apiKey, limit } = req.query;
@@ -13,11 +16,16 @@ const usuariosGet = (req = request, res = response) => {
 
 //POST
 const usuariosPost = (req = request, res = response) => {
-  const body = req.body;
+  const datos = req.body;
+  const { nombre, correo, password, rol } = datos;
+
+  const usuario = new Usuario({ nombre, correo, password, rol });
+
+  //Guardar datos en BASE DE DATOS
 
   res.json({
+    usuario,
     mensaje: "envio el mensaje",
-    body,
   });
 };
 

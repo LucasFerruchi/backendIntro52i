@@ -43,6 +43,7 @@ class Server {
     // usuario.js
     this.app.use(this.usuarioPath, require("../routes/usuarios"));
   }
+
   listen() {
     this.app.listen(this.port, () => {
       console.log("Server Online", this.port);
