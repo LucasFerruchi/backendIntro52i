@@ -31,6 +31,9 @@ class Server {
     //CORS
     this.app.use(cors());
 
+    //recibir datos .json
+    this.app.use(express.json());
+
     //Mostrar archivos publicos
     this.app.use(express.static("public"));
   }
