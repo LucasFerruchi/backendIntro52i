@@ -37,4 +37,13 @@ const UsuarioSchema = Schema({
   },
 });
 
+//Quitar datos de la respuesta al FRONTEND
+UsuarioSchema.methods.toJSON = function () {
+  //desestructurando
+  const { __v, password, ...usuario } = this.toObject();
+
+  //retornamos usuario
+  return usuario;
+};
+
 module.exports = model("Usuario", UsuarioSchema);

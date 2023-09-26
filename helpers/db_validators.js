@@ -19,7 +19,17 @@ const esRolValido = async (rol) => {
   }
 };
 
+//funcion para encontrar id valido
+const esIdValido = async (id) => {
+  const existeUsuario = await Usuario.findById(id);
+
+  if (!existeUsuario) {
+    throw new Error(`El Id ${id} no se encuentra en la base de datos!`);
+  }
+};
+
 module.exports = {
   esMailValido,
   esRolValido,
+  esIdValido,
 };

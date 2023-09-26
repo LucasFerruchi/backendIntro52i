@@ -6,13 +6,32 @@ const bcrypt = require("bcryptjs");
 const Usuario = require("../models/usuario");
 
 //Pet GET
-const usuariosGet = (req = request, res = response) => {
-  const { apiKey, limit } = req.query;
+const usuariosGet = async (req = request, res = response) => {
+  // const { apiKey, limit } = req.query;
+  const { desde = 0, limite = 0 } = req.query;
+
+  //Usuarios activos
+  const query = { estado: true };
+
+  // //Enviar toda la base de datos
+  // const usuarios = await Usuario.find();
+
+  //Enviar datos segun PARAMETROS
+  // const usuarios = await Usuario.find().skip(desde).limit(limite);
+  // const total = await Usuario.countDocuments();
+
+  //Enviar datos segun PARAMETROS - respuesta OPTIMIZADA
+  const [total, usuarios] = await Promise.all([
+    Usuario.countDocuments(query),
+    Usuario.find(query).skip(desde).limit(limite),
+  ]);
 
   res.json({
-    mensaje: "recibo el mensaje",
-    apiKey,
-    limit,
+    mensaje: "Envio datos!",
+    // apiKey,
+    // limit,
+    total,
+    usuarios,
   });
 };
 
@@ -39,16 +58,57 @@ const usuariosPost = async (req = request, res = response) => {
 };
 
 //PUT
-const usuariosPut = (req = request, res = response) => {
+const usuariosPut = async (req = request, res = response) => {
+  const { id } = req.params;
+
+  const { password, ...updUsuario } = req.body;
+
+  //Encriptar password nuevamente
+  // if (password) {
+  //   const salt = bcrypt.genSaltSync(10);
+  //   updUsuario.password = bcrypt.hashSync(password, salt);
+  // }
+
+  const usuario = await Usuario.findByIdAndUpdate(id, updUsuario, {
+    new: true,
+  });
+
   res.json({
-    mensaje: "modifico el mensaje",
+    mensaje: "Datos de ususario actualizados",
+    password,
+    id,
+    usuario,
   });
 };
 
 //DELETE
-const usuariosDelete = (req = request, res = response) => {
+const usuariosDelete = async (req = request, res = response) => {
+  const { id } = req.params;
+
+  // //Borrar DEFINITIVAMENTE un usuario
+  // const usuarioEliminado = await Usuario.findByIdAndDelete(id);
+
+  //Cambiar el ESTADO del usuario
+  const usuario = await Usuario.findById(id);
+
+  //Primero validar que el estado NO ESTE EN FALSE
+  if (!usuario.estado) {
+    return res.json({
+      msg: "El usuario ya esta inactivo!",
+    });
+  }
+
+  //Encontrar el id y cambiar el valor del estado
+  const usuarioInactivo = await Usuario.findByIdAndUpdate(
+    id,
+    { estado: false },
+    { new: true }
+  );
+
   res.json({
-    mensaje: "elimino el mensaje",
+    mensaje: "Usuario eliminado!",
+    // usuarioEliminado,
+    usuarioInactivo,
   });
 };
 

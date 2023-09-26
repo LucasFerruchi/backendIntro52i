@@ -13,14 +13,18 @@ const {
 } = require("../controllers/usuariosCtrl");
 
 //Validaciones de la BASE DE DATOS
-const { esMailValido, esRolValido } = require("../helpers/db_validators");
+const {
+  esMailValido,
+  esRolValido,
+  esIdValido,
+} = require("../helpers/db_validators");
 
 const router = Router();
 
-//PETICION GET: recibir datos
+//PETICION GET: enviar datos
 router.get("/", usuariosGet);
 
-//PETICION POST: mandar datos
+//PETICION POST: recibir datos
 router.post(
   "/",
   [
@@ -38,9 +42,25 @@ router.post(
 );
 
 //PETICION PUT: actualizar datos
-router.put("/:id", usuariosPut);
+router.put(
+  "/:id",
+  [
+    check("id", "No es un ID válido!").isMongoId(),
+    check("id").custom(esIdValido),
+    validarCampos,
+  ],
+  usuariosPut
+);
 
 //PETICION DELETE: borrar datos
-router.delete("/:id", usuariosDelete);
+router.delete(
+  "/:id",
+  [
+    check("id", "No es un ID válido!").isMongoId(),
+    check("id").custom(esIdValido),
+    validarCampos,
+  ],
+  usuariosDelete
+);
 
 module.exports = router;
