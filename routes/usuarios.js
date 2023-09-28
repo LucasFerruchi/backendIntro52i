@@ -1,5 +1,6 @@
 const { Router } = require("express");
 //ExpressValidators
+const { validarJWT } = require("../middlewares/validar_jwt");
 const { check } = require("express-validator");
 //Funcion validar CAMPOS (formulario de registro)
 const { validarCampos } = require("../middlewares/validar_campos");
@@ -56,6 +57,8 @@ router.put(
 router.delete(
   "/:id",
   [
+    //Validar JWT
+    validarJWT,
     check("id", "No es un ID válido!").isMongoId(),
     check("id").custom(esIdValido),
     validarCampos,

@@ -10,6 +10,9 @@ class Server {
 
     this.port = process.env.PORT;
 
+    //Path del login
+    this.authPath = "/api/auth";
+    //Path de ususarios
     this.usuarioPath = "/api/usuarios";
 
     //Base datos
@@ -39,7 +42,8 @@ class Server {
   }
 
   routes() {
-    //GET, POST, PUT, DELETE
+    //auth.js
+    this.app.use(this.authPath, require("../routes/auth"));
     // usuario.js
     this.app.use(this.usuarioPath, require("../routes/usuarios"));
   }
