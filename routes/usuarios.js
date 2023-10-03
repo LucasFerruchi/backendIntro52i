@@ -1,6 +1,8 @@
 const { Router } = require("express");
 //ExpressValidators
 const { validarJWT } = require("../middlewares/validar_jwt");
+const { esAdminRole } = require("../middlewares/validar-roles");
+
 const { check } = require("express-validator");
 //Funcion validar CAMPOS (formulario de registro)
 const { validarCampos } = require("../middlewares/validar_campos");
@@ -59,6 +61,8 @@ router.delete(
   [
     //Validar JWT
     validarJWT,
+    //Valido el rol
+    esAdminRole,
     check("id", "No es un ID válido!").isMongoId(),
     check("id").custom(esIdValido),
     validarCampos,

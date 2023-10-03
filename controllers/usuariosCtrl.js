@@ -85,6 +85,9 @@ const usuariosPut = async (req = request, res = response) => {
 const usuariosDelete = async (req = request, res = response) => {
   const { id } = req.params;
 
+  //Datos del ususario que hace el pedido
+  const usuarioAdmin = req.usuario;
+
   // //Borrar DEFINITIVAMENTE un usuario
   // const usuarioEliminado = await Usuario.findByIdAndDelete(id);
 
@@ -109,6 +112,8 @@ const usuariosDelete = async (req = request, res = response) => {
     mensaje: "Usuario eliminado!",
     // usuarioEliminado,
     usuarioInactivo,
+    //Mostrar los datos del usuario que hizo el pedido
+    usuarioAdmin,
   });
 };
 
