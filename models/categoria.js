@@ -13,11 +13,11 @@ const CategoriaSchema = Schema({
     default: true,
   },
   //Usuario que crea la categoria
-  //   usuario: {
-  //     type: Schema.Types.ObjectId,
-  //     ref: "Usuario",
-  //     required: true,
-  //   },
+  usuario: {
+    type: Schema.Types.ObjectId,
+    ref: "Usuario",
+    required: true,
+  },
 });
 
 module.exports = model("Categoria", CategoriaSchema);
