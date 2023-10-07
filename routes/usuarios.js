@@ -1,13 +1,10 @@
 const { Router } = require("express");
-//ExpressValidators
 const { validarJWT } = require("../middlewares/validar_jwt");
 const { esAdminRole } = require("../middlewares/validar-roles");
 
 const { check } = require("express-validator");
-//Funcion validar CAMPOS (formulario de registro)
 const { validarCampos } = require("../middlewares/validar_campos");
 
-//importar funciones de controlador
 const {
   usuariosGet,
   usuariosPost,
@@ -15,7 +12,6 @@ const {
   usuariosDelete,
 } = require("../controllers/usuariosCtrl");
 
-//Validaciones de la BASE DE DATOS
 const {
   esMailValido,
   esRolValido,
@@ -24,10 +20,8 @@ const {
 
 const router = Router();
 
-//PETICION GET: enviar datos
 router.get("/", usuariosGet);
 
-//PETICION POST: recibir datos
 router.post(
   "/",
   [
@@ -44,7 +38,6 @@ router.post(
   usuariosPost
 );
 
-//PETICION PUT: actualizar datos
 router.put(
   "/:id",
   [
@@ -55,13 +48,10 @@ router.put(
   usuariosPut
 );
 
-//PETICION DELETE: borrar datos
 router.delete(
   "/:id",
   [
-    //Validar JWT
     validarJWT,
-    //Valido el rol
     esAdminRole,
     check("id", "No es un ID válido!").isMongoId(),
     check("id").custom(esIdValido),
