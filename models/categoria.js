@@ -1,7 +1,6 @@
 const { Schema, model } = require("mongoose");
 
 const CategoriaSchema = Schema({
-  //Propiedades
   nombre: {
     type: String,
     required: [true, "El nombre es obligatorio!"],
@@ -12,7 +11,6 @@ const CategoriaSchema = Schema({
     required: true,
     default: true,
   },
-  //Usuario que crea la categoria
   usuario: {
     type: Schema.Types.ObjectId,
     ref: "Usuario",
