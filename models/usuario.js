@@ -1,11 +1,3 @@
-//modelo de datos de usuario
-
-//nombre
-//correo
-//password
-//img
-//rol (user/admin)
-//estado (true/false)
 const { Schema, model } = require("mongoose");
 
 const UsuarioSchema = Schema({
@@ -28,8 +20,6 @@ const UsuarioSchema = Schema({
   rol: {
     type: String,
     required: true,
-    // enum: ["USER_ROLE", "ADMIN_ROLE"],
-    // default: "USER_ROLE",
   },
   estado: {
     type: Boolean,
@@ -37,12 +27,9 @@ const UsuarioSchema = Schema({
   },
 });
 
-//Quitar datos de la respuesta al FRONTEND
 UsuarioSchema.methods.toJSON = function () {
-  //desestructurando
   const { __v, password, ...usuario } = this.toObject();
 
-  //retornamos usuario
   return usuario;
 };
 
