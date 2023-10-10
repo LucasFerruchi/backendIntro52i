@@ -3,10 +3,7 @@ const { validarJWT } = require("../middlewares/validar_jwt");
 const { esAdminRole } = require("../middlewares/validar-roles");
 const { check } = require("express-validator");
 const { validarCampos } = require("../middlewares/validar_campos");
-const {
-  esCursoValido,
-  esCategoriaValido,
-} = require("../helpers/db_validators");
+const { esCursoValido } = require("../helpers/db_validators");
 
 const {
   obtenerCursos,
