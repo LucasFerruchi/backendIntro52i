@@ -1,7 +1,6 @@
 const { response, request } = require("express");
 const Categoria = require("../models/categoria");
 
-//RUTA GET-categorias
 const obtenerCategorias = async (req = request, res = response) => {
   const { desde = 0, limite = 0 } = req.query;
   const query = { estado: true };
@@ -20,7 +19,6 @@ const obtenerCategorias = async (req = request, res = response) => {
   });
 };
 
-//RUTA GET-categoria
 const obtenerCategoria = async (req = request, res = response) => {
   const { id } = req.params;
 
@@ -34,11 +32,9 @@ const obtenerCategoria = async (req = request, res = response) => {
   });
 };
 
-//RUTA POST
 const crearCategoria = async (req = request, res = response) => {
   const nombre = req.body.nombre.toUpperCase();
 
-  //verificar si la categoria existe
   const categoriaDB = await Categoria.findOne({ nombre });
 
   if (categoriaDB) {
@@ -47,16 +43,13 @@ const crearCategoria = async (req = request, res = response) => {
     });
   }
 
-  //Generar la info
   const data = {
     nombre,
     usuario: req.usuario._id,
   };
 
-  //creo la nueva INSTANCIA
   const categoria = new Categoria(data);
 
-  //Mandar a la base de datos
   await categoria.save();
 
   if (categoria) {
@@ -68,14 +61,12 @@ const crearCategoria = async (req = request, res = response) => {
   }
 };
 
-//PUT
 const actualizarCategoria = async (req = request, res = response) => {
   const { id } = req.params;
 
   const nombre = req.body.nombre.toUpperCase();
   const usuario = req.usuario._id;
 
-  //guardar la data
   const data = {
     nombre,
     usuario,
@@ -89,7 +80,6 @@ const actualizarCategoria = async (req = request, res = response) => {
   });
 };
 
-//DELETE
 const borrarcategoria = async (req = request, res = response) => {
   const { id } = req.params;
 

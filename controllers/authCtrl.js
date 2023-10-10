@@ -9,36 +9,29 @@ const login = async (req = request, res = response) => {
   try {
     const usuario = await Usuario.findOne({ correo });
 
-    //Verificar correo existente
     if (!usuario) {
       return res.status(400).json({
         msg: "Correo o password incorrectos! | correo",
       });
     }
 
-    //Verificar estado del usuario
     if (!usuario.estado) {
       return res.status(400).json({
         msg: "Correo o password incorrectos! | estado",
       });
     }
 
-    //Contraseña encriptada
     const validPassword = bcrypt.compareSync(password, usuario.password);
-    //Verificar contraseña
     if (!validPassword) {
       return res.status(400).json({
         msg: "Correo o password incorrectos! | password",
       });
     }
 
-    //generamos el JWT
     const token = await generarJWT(usuario.id);
 
     res.json({
       msg: "Login OK!",
-      //   correo,
-      //   password,
       token,
     });
   } catch (error) {
