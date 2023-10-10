@@ -1,5 +1,7 @@
 const Usuario = require("../models/usuario");
 const Rol = require("../models/rol");
+const Categoria = require("../models/categoria");
+const Curso = require("../models/curso");
 
 //Mail existe?
 const esMailValido = async (correo) => {

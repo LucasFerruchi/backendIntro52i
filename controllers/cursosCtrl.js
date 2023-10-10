@@ -61,7 +61,7 @@ const crearCurso = async (req = request, res = response) => {
   if (curso) {
     res.status(201).json({
       curso,
-      msg: "Elcurso fue creada con exito!",
+      msg: "El curso fue creado con exito!",
     });
   }
 };
