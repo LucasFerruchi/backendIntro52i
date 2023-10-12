@@ -13,6 +13,7 @@ const {
   usuariosPost,
   usuariosPut,
   usuariosDelete,
+  obtenerUsuario,
 } = require("../controllers/usuariosCtrl");
 
 //Validaciones de la BASE DE DATOS
@@ -26,6 +27,17 @@ const router = Router();
 
 //PETICION GET: enviar datos
 router.get("/", usuariosGet);
+
+router.get(
+  "/:id",
+  [
+    validarJWT,
+    check("id", "El id no es valido").isMongoId(),
+    check("id").custom(esIdValido),
+    validarCampos,
+  ],
+  obtenerUsuario
+);
 
 //PETICION POST: recibir datos
 router.post(
