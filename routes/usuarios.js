@@ -10,6 +10,7 @@ const {
   usuariosPost,
   usuariosPut,
   usuariosDelete,
+  obtenerUsuario,
 } = require("../controllers/usuariosCtrl");
 
 const {
@@ -22,6 +23,18 @@ const router = Router();
 
 router.get("/", usuariosGet);
 
+router.get(
+  "/:id",
+  [
+    validarJWT,
+    check("id", "El id no es valido").isMongoId(),
+    check("id").custom(esIdValido),
+    validarCampos,
+  ],
+  obtenerUsuario
+);
+
+//PETICION POST: recibir datos
 router.post(
   "/",
   [

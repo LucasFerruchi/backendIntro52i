@@ -13,6 +13,8 @@ class Server {
     this.categoriasPath = "/api/categorias";
     //cursos
     this.cursosPath = "/api/cursos";
+    //buscar
+    this.buscarPath = "/api/buscar";
 
     this.conectarDB();
 
@@ -39,6 +41,8 @@ class Server {
     this.app.use(this.categoriasPath, require("../routes/categorias"));
     //Ruta de cursos
     this.app.use(this.cursosPath, require("../routes/cursos"));
+    //Buscador
+    this.app.use(this.buscarPath, require("../routes/buscar"));
   }
 
   listen() {
